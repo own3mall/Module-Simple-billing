@@ -34,52 +34,58 @@ function exec_ogp_module()
 	<?php  
 	$qry_services = "SELECT * FROM OGP_DB_PREFIXbilling_services";
 	$services = $db->resultQuery($qry_services);
-	foreach ($services as $key => $row) {
-		$service_id[$key] = $row['service_id'];
-		$home_cfg_id[$key] = $row['home_cfg_id'];
-		$mod_cfg_id[$key] = $row['mod_cfg_id'];
-		$service_name[$key] = $row['service_name'];
-		$remote_server_id[$key] = $row['remote_server_id'];
-		$slot_max_qty[$key] = $row['slot_max_qty'];
-		$slot_min_qty[$key] = $row['slot_min_qty'];
-		$price_hourly[$key] = $row['price_hourly'];
-		$price_monthly[$key] = $row['price_monthly'];
-		$price_year[$key] = $row['price_year'];
-		$description[$key] = $row['description'];
-		$img_url[$key] = $row['img_url'];
-		$ftp[$key] = $row['ftp'];
-		$install_method[$key] = $row['install_method'];
-		$manual_url[$key] = $row['manual_url'];
-		$access_rights[$key] = $row['access_rights'];
-	}
-	//Sort by service name, the 1st position in this array multisort, service_name, defines the row that sorts the array, if there are two equal service names then the next row, service_id, will sort these rows.
-	array_multisort($service_name,
-					$service_id,
-					$home_cfg_id,
-					$mod_cfg_id,
-					$remote_server_id,
-					$slot_max_qty,
-					$slot_min_qty,
-					$price_hourly,
-					$price_monthly,
-					$price_year,
-					$description,
-					$img_url,
-					$ftp,
-					$install_method,
-					$manual_url,
-					$access_rights, SORT_DESC, $services);
 	
-	foreach($services as $row)
-	{ 
-	?>
-	<div style="float:left; border: 4px solid transparent;border-bottom: 25px solid transparent;">
-	<img src="<?php echo $row['img_url'] ;?>" width=280 height=132 border=0 alt="Bad Image">
-	<br>
-	<center><b><?php echo $row['service_name'];?></b></center>
-	<center><em style="text-align:center;background-color:orange;color:blue;"><?php echo get_lang('starting_on') . " <b>" . floatval(round(($row['price_monthly']*$row['slot_min_qty']),2 )) . "</b>&nbsp;" . $settings['currency'] . "/" . get_lang('month') . " (" . $row['slot_min_qty'] . " " . get_lang('slots') . ").";?></em></center>
-	</div>
-	<?php 
+	if(is_array($services) && count($services) > 0){
+	
+		foreach ($services as $key => $row) {
+			$service_id[$key] = $row['service_id'];
+			$home_cfg_id[$key] = $row['home_cfg_id'];
+			$mod_cfg_id[$key] = $row['mod_cfg_id'];
+			$service_name[$key] = $row['service_name'];
+			$remote_server_id[$key] = $row['remote_server_id'];
+			$slot_max_qty[$key] = $row['slot_max_qty'];
+			$slot_min_qty[$key] = $row['slot_min_qty'];
+			$price_hourly[$key] = $row['price_hourly'];
+			$price_monthly[$key] = $row['price_monthly'];
+			$price_year[$key] = $row['price_year'];
+			$description[$key] = $row['description'];
+			$img_url[$key] = $row['img_url'];
+			$ftp[$key] = $row['ftp'];
+			$install_method[$key] = $row['install_method'];
+			$manual_url[$key] = $row['manual_url'];
+			$access_rights[$key] = $row['access_rights'];
+		}
+		//Sort by service name, the 1st position in this array multisort, service_name, defines the row that sorts the array, if there are two equal service names then the next row, service_id, will sort these rows.
+		array_multisort($service_name,
+						$service_id,
+						$home_cfg_id,
+						$mod_cfg_id,
+						$remote_server_id,
+						$slot_max_qty,
+						$slot_min_qty,
+						$price_hourly,
+						$price_monthly,
+						$price_year,
+						$description,
+						$img_url,
+						$ftp,
+						$install_method,
+						$manual_url,
+						$access_rights, SORT_DESC, $services);
+		
+		foreach($services as $row)
+		{ 
+		?>
+		<div style="float:left; border: 4px solid transparent;border-bottom: 25px solid transparent;">
+		<img src="<?php echo $row['img_url'] ;?>" width=280 height=132 border=0 alt="Bad Image">
+		<br>
+		<center><b><?php echo $row['service_name'];?></b></center>
+		<center><em style="text-align:center;background-color:orange;color:blue;"><?php echo get_lang('starting_on') . " <b>" . floatval(round(($row['price_monthly']*$row['slot_min_qty']),2 )) . "</b>&nbsp;" . $settings['currency'] . "/" . get_lang('month') . " (" . $row['slot_min_qty'] . " " . get_lang('slots') . ").";?></em></center>
+		</div>
+		<?php 
+		}
+		?>
+	<?php
 	}
 	?>
 	</div>
